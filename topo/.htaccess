@@ -1,0 +1,41 @@
+RewriteEngine on
+
+Options +FollowSymlinks
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.css$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.js$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.html$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.txt$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.jpg$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.otf$
+
+RewriteCond %{REQUEST_URI} !\.otf$
+RewriteCond %{REQUEST_URI} !\.css$
+RewriteCond %{REQUEST_URI} !\.js$
+
+RewriteCond %{REQUEST_URI} !img/(.*)\.
+RewriteCond %{REQUEST_URI} !fonts/(.*)\.
+RewriteCond %{REQUEST_URI} !css/(.*)\.
+
+RewriteBase /topo/
+
+RewriteRule ^(.*)$ index.php?p=$1 [QSA]
+
+# pasta imagem universal
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.jpg$
+RewriteRule (.*)/img/(.*).(jpg|png|svg|gif|apng) img/$2.$3
+
+# pasta javascript universal
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.js$
+RewriteRule (.*)/js/(.*).(js) js/$2.$3
+
+# pasta css universal
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.css$
+RewriteRule (.*)/css/(.*).(css) css/$2.$3
+
+# pasta css universal
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.swf$
+RewriteRule (.*)/swf/(.*).(swf) swf/$2.$3

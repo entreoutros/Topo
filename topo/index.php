@@ -2,13 +2,8 @@
 
 /* System config */
 
-
-setlocale(LC_ALL, 'en_US.UTF-8');
-define('debbug',true); // libera acesso POST e mensagens de callback
-
-
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-define('root',$protocol . $_SERVER['HTTP_HOST']."/topo/");
+define('root', $protocol . $_SERVER['HTTP_HOST']."/topo/");
 define('lib_path','./app/libs/');
 define('inc_path','./app/');
 define('core_path','./app/core/');
@@ -17,11 +12,6 @@ define('controller_path','./app/controller/');
 define('model_path','./app/model/');
 define('upload_path','./upload/');
 
-if(debbug){
-	error_reporting(6143);
-}else{
-	error_reporting(0);
-}
 // ini_set('memory_limit', '2048M'); // uncomment to allow a huge memory use
 
 /*
@@ -44,9 +34,6 @@ include_once(core_path."db.class.php");		// ativa o controle do bando de dados
 include_once(core_path."dic.class.php");	// ativa dicionarios
 include_once(core_path."render.class.php");	// ativa o renderizador de retorno
 
-// ativa o sistema 
-$router->allowCrossDomain = true; // permite requisições AJAX de outros domínios
-//$router->onlyJson = true;     // bloqueia requisições que não esperem Json como resposta. Foco em APIs
 
 if(!$router->open($pagina)){
 	http_response_code( 403 );

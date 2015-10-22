@@ -1,5 +1,22 @@
 <?php
 
+setlocale(LC_ALL, 'en_US.UTF-8');
+define('debbug',true); // libera acesso POST e mensagens de callback
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+define('root', $protocol . $_SERVER['HTTP_HOST']."/topo/");
+
+if(debbug){
+	error_reporting(6143);
+}else{
+	error_reporting(0);
+}
+
+/* Config the router
+*/
+$router->allowCrossDomain = true; // permite requisições AJAX de outros domínios
+//$router->onlyJson = true;     // bloqueia requisições que não esperem Json como resposta. Foco em APIs
+
+
 /* Declare routers 
 *  
 *  url 			- url to active this route

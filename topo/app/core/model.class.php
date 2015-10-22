@@ -150,10 +150,22 @@ class ModelCRUD extends Model {
 		return $removed;
 	}
 
+	/**
+	 * load
+	 *
+	 * Carrega os registros do model no banco de dados de acordo com os parâmetros informados.
+	 *
+	 * @version 1.0
+	 * @param 	string 	$filter 	Array com informações para filtrar os registros
+	 * @param 	string 	$sort 		Lorem ipsum dolor sit amet
+	 * @param 	string 	$slice 		Lorem ipsum dolor sit amet
+	 * @return 	integer 			Retorna o número de registros encontrados
+	 */
 	public function load( $filter = false , $sort = false, $slice = false ){
 
 		$matchs = array();
 
+		// caso não exista o parâmetro $filter, cria array com informações default
 		if(!$filter){
 		 	$filter = array(
 		 		$this->table .".". $this->key_attribute,
@@ -162,6 +174,7 @@ class ModelCRUD extends Model {
 		 		false, 
 		 		gettype($this->defaults[$this->key_attribute])
 		 	);
+		// caso o parâmetro $filter informado não seja um array, insere a string no array padrão para ser enviado para a função db::digestWhere()
 		}elseif ( gettype($filter) !== "array" ) {
 			$filter = array(
 		 		$this->table .".". $this->key_attribute,

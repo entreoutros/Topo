@@ -98,7 +98,22 @@ class db{
 	
 	// SQL Methods
 
+    /**
+	 * digestWhere
+	 *
+	 * Prepara uma string com as condições para uma consulta sql.
+	 *
+	 * @version 1.0
+	 * @param 	string 	$filter 	Array com informações para filtrar os registros
+	 * 								- Índice 0 do array - Nome do campo no banco de dados
+	 * 								- Índice 1 do array - Valor do campo para comparação
+	 * 								- Índice 2 do array - Operador: =, <, >, <>
+	 * 								- Índice 3 do array - Agregador: OR, AND, AND NOT, OR NOT
+	 * 								- Índice 4 do array - Tipo de campo (string, integer, etc)
+	 * @return 	$return 			Array com o sql de condições e argumentos
+	 */
 	public static function digestWhere($filter){
+		
 		$return = array('sql'=>'','args'=>array());
 
 		if( is_array($filter) && count($filter) > 0 ){
@@ -143,6 +158,17 @@ class db{
 		return $return;
 	}
 
+	/**
+	 * digestOrder
+	 *
+	 * Prepara uma string com a ordenação para uma consulta sql.
+	 *
+	 * @version 1.0
+	 * @param 	string 	$sort 		String ou array com o(s) campo(s) que serão utilizados para ordenação
+	 *								- Exemplo de string: $sort = "campo_a";
+	 *								- Exemplo de array: $sort = array("campo_a", "campo_b", "campo_c");
+	 * @return 	$return 			Array ou string com o sql de ordenação.
+	 */
 	public static function digestOrder($sort = false){
 		$order  = '';
 
@@ -158,7 +184,19 @@ class db{
 		return $order;
 	}
 
+	/**
+	 * digestLimit
+	 *
+	 * Prepara uma string com os limites para uma consulta sql.
+	 *
+	 * @version 1.0
+	* @param 	string 	$slice 		Array com a linha de início da consulta e com a quantidade de registros por página.
+	 *								- Índice 0 do array - (integer) Número da linha para início da consulta
+	 *								- Índice 1 do array - (integer) Quantidade de linhas que serão selecionadas na consulta
+	 * @return 	$return 			Array ou string com o sql de ordenação.
+	 */
 	public static function digestLimit($slice = false){
+		
 		$limit = '';
 		$matchs = array();
 

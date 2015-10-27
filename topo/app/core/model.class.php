@@ -157,8 +157,17 @@ class ModelCRUD extends Model {
 	 *
 	 * @version 1.0
 	 * @param 	string 	$filter 	Array com informações para filtrar os registros
-	 * @param 	string 	$sort 		Lorem ipsum dolor sit amet
-	 * @param 	string 	$slice 		Lorem ipsum dolor sit amet
+	 * 								- Índice 0 do array - Nome do campo no banco de dados
+	 * 								- Índice 1 do array - Valor do campo para comparação
+	 * 								- Índice 2 do array - Operador: =, <, >, <>
+	 * 								- Índice 3 do array - Agregador: OR, AND, AND NOT, OR NOT
+	 * 								- Índice 4 do array - Tipo de campo (string, integer, etc)
+	 * @param 	string 	$sort 		String ou array com o(s) campo(s) que serão utilizados para ordenação
+	 *								- Exemplo de string: $sort = "campo_a";
+	 *								- Exemplo de array: $sort = array("campo_a", "campo_b", "campo_c");
+	 * @param 	string 	$slice 		Array com a linha de início da consulta e com a quantidade de registros por página.
+	 *								- Índice 0 do array - (integer) Número da linha para início da consulta
+	 *								- Índice 1 do array - (integer) Quantidade de linhas que serão selecionadas na consulta
 	 * @return 	integer 			Retorna o número de registros encontrados
 	 */
 	public function load( $filter = false , $sort = false, $slice = false ){
@@ -185,17 +194,21 @@ class ModelCRUD extends Model {
 		 	);
 		}
 
+		// executa a função digestWhere que prepara o sql que será executado
 		$filter = db::digestWhere($filter);
 		$condition = $filter['sql'];
 		$matchs = array_merge($matchs, $filter['args']);
 
+		// executa a função digestOrder que prepara a string com o sql de ordenação
 		$order = db::digestOrder($sort);
+		// executa a função digestLimit que prepara a string com o limite de seleção de registros para a consulta sql
 		$slice = db::digestLimit($slice);
 		$limit = $slice['sql'];
 		$matchs = array_merge($matchs, $slice['args']);
 
 		$sql = "SELECT * FROM " . $this->table . $condition . $order . $limit;
 
+		// Executa o sql
 		$matchs = db::sql($sql, $matchs);
 
 		foreach($matchs as $key=>$line){		

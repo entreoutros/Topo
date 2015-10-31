@@ -79,11 +79,11 @@ class Model{
     /**
 	 * update
 	 *
-	 * Altera as informações dos atributos do model de acordo com o valor passado na variável $value.
+	 * Cria um novo atributo no model, salvando um valor ao atributo.
 	 *
 	 * @version 1.0
-	 * @param 	string 	$name 	(array ou string) Nome do atributo.
-	 * @param 	string 	$value 	Novo valor do campo.
+	 * @param 	string 	$name 	(array ou string) Nome do novo atributo.
+	 * @param 	string 	$value 	Valor do campo.
 	 */
 	public function update($name, $value = null){
 		if( is_array( $name ) ){

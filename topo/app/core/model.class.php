@@ -7,6 +7,14 @@ class Model{
 
 	public $attributes = array();
 
+	/**
+	 * __construct
+	 *
+	 * Carrega os atributos do model de acordo com as chaves do array $defaults de cada model criado.
+	 *
+	 * @version 1.0
+	 * @param 	string 	$model 	Objeto com os atributos do model.
+	 */
 	public function __construct($model = array()){
 		$this->attributes = $this->defaults;
 
@@ -15,6 +23,14 @@ class Model{
 		}
 	}
 
+	/**
+	 * __get
+	 *
+	 * ####
+	 *
+	 * @version 1.0
+	 * @param 	string 	$name 	####
+	 */
 	public function __get($name)
     {
 
@@ -31,6 +47,15 @@ class Model{
         return null;
     }
 
+    /**
+	 * __set
+	 *
+	 * ####
+	 *
+	 * @version 1.0
+	 * @param 	string 	$name 	####
+	 * @param 	string 	$value 	####
+	 */
   	public function __set($name, $value)
     {
 
@@ -51,6 +76,15 @@ class Model{
         }        
     }
 
+    /**
+	 * update
+	 *
+	 * Altera as informações dos atributos do model de acordo com o valor passado na variável $value.
+	 *
+	 * @version 1.0
+	 * @param 	string 	$name 	(array ou string) Nome do atributo.
+	 * @param 	string 	$value 	Novo valor do campo.
+	 */
 	public function update($name, $value = null){
 		if( is_array( $name ) ){
 			foreach ($name as $key => $value) {
@@ -69,22 +103,44 @@ class Model{
 		}		
 	}
 
+	/**
+	 * toJSON
+	 *
+	 * Executa a função json_enconde nos atributos do model.
+	 *
+	 * @version 1.0
+	 * @return 	array 	$this->attributes 	Array com os atributos do model em JSON.
+	 */
     public function toJSON(){
     	return json_encode( $this->attributes );
     }
   
 }
 
+/**
+ * ModelCRUD extends Model
+ *
+ * ####
+ *
+ * @version 1.0
+ */
 class ModelCRUD extends Model {
 
 	public $table = '!pre!table_name';
 	public $status_flag = false;
 	public $key_attribute = 'id';
 
+	/**
+	 * create
+	 *
+	 * Cria um novo registro no banco de dados com os atributos informados no model.
+	 *
+	 * @version 1.0
+	 * @return 	string 	$inserir 	Resposta do SQL de inserção no banco de dados.
+	 */
 	public function create(){
 
-		/* valida campos e garante os defaults */
-		//
+		// valida campos e garante os defaults
 		$input = array_merge( $this->defaults, $this->attributes ); // adiciona termos default caso estejam faltando
 		$input = array_intersect_key( $input, $this->defaults ); // retira termos não defaults
 		$input = array_filter( $input ); // remove os nulos
@@ -110,9 +166,16 @@ class ModelCRUD extends Model {
 		return $inserir;
 	}
 
+	/**
+	 * save
+	 *
+	 * Salva as novas informações em um registro no banco de dados de acordo com os atributos salvos no model.
+	 *
+	 * @version 1.0
+	 * @return 	string 	$feedback 	Resposta do SQL da alteração no banco de dados.
+	 */
 	public function save(){
 		/* valida campos e garante os defaults */
-		//
 		//$input = array_merge( $this->defaults, $this->attributes ); // adiciona termos default caso estejam faltando
 		
 		$input = array_intersect_key( $this->attributes, $this->defaults); // retira termos não defaults
@@ -137,6 +200,14 @@ class ModelCRUD extends Model {
 		return $feedback;		
 	}
 
+	/**
+	 * delete
+	 *
+	 * Deleta um registro no banco de dados OU adiciona false/zero ao status_flag do registro no banco de dados.
+	 *
+	 * @version 1.0
+	 * @return 	string 	$removed 	Resposta do SQL de exclusão no banco de dados.
+	 */
 	public function delete(){
 		
 		if( $this->status_flag ){
@@ -225,6 +296,14 @@ class ModelCRUD extends Model {
 		return (count($matchs)>0);
 	}
 
+	/**
+	 * exists
+	 *
+	 * ####
+	 *
+	 * @version 1.0
+	 * @return 	integer 	####
+	 */
 	public function exists($filter = false, $active = true){
 
 		$filter = (is_array($filter))?$filter:array( $filter, $this->{$filter} );
@@ -252,6 +331,7 @@ class ModelCRUD extends Model {
 }
 
 class ModelCollection {
+
 	public $table = '!pre!table_name';
 	public $model = null;
 

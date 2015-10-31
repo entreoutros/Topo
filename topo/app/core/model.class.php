@@ -32,22 +32,22 @@ class Model{
 	 * @param 	string 	$name 	####
 	 */
 	public function __get($name)
-    {
+	{
 
-    	if(method_exists($this, 'get' . ucfirst ( $name ))){ return call_user_func_array(array($this, 'get' . ucfirst ( $name )),array()); }
+		if(method_exists($this, 'get' . ucfirst ( $name ))){ return call_user_func_array(array($this, 'get' . ucfirst ( $name )),array()); }
 
-    	if($name == 'attributes'){
-    		return $this->attributes;
-    	}
+		if($name == 'attributes'){
+			return $this->attributes;
+		}
 
-        if (array_key_exists($name, $this->attributes)) {
-            return $this->attributes[$name];
-        }
+		if (array_key_exists($name, $this->attributes)) {
+			return $this->attributes[$name];
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
+	/**
 	 * __set
 	 *
 	 * ####
@@ -56,27 +56,27 @@ class Model{
 	 * @param 	string 	$name 	####
 	 * @param 	string 	$value 	####
 	 */
-  	public function __set($name, $value)
-    {
+	public function __set($name, $value)
+	{
 
-    	if($name == 'attributes' || $name == 'defaults'){
-    		$trace = debug_backtrace();
-	        trigger_error(
-	            'You cannot use "'. $name .'" to Model attribute'. 
-	            ' in ' . $trace[0]['file'] .
-	            ' on line ' . $trace[0]['line'],
-	            E_USER_NOTICE);
-	        return null;
-    	}
+		if($name == 'attributes' || $name == 'defaults'){
+			$trace = debug_backtrace();
+			trigger_error(
+				'You cannot use "'. $name .'" to Model attribute'. 
+				' in ' . $trace[0]['file'] .
+				' on line ' . $trace[0]['line'],
+				E_USER_NOTICE);
+			return null;
+		}
 
-    	if(method_exists($this, 'set' . ucfirst ( $name ))){ return call_user_func_array(array($this, 'set' . ucfirst ( $name )), array($value)); }
+		if(method_exists($this, 'set' . ucfirst ( $name ))){ return call_user_func_array(array($this, 'set' . ucfirst ( $name )), array($value)); }
 
-        if( array_key_exists($name, $this->attributes) || array_key_exists($name, $this->defaults) ){
-        	$this->attributes[$name] = $value;
-        }        
-    }
+		if( array_key_exists($name, $this->attributes) || array_key_exists($name, $this->defaults) ){
+			$this->attributes[$name] = $value;
+		}        
+	}
 
-    /**
+	/**
 	 * update
 	 *
 	 * Cria um novo atributo no model, salvando um valor ao atributo.
@@ -111,9 +111,9 @@ class Model{
 	 * @version 1.0
 	 * @return 	array 	$this->attributes 	Array com os atributos do model em JSON.
 	 */
-    public function toJSON(){
-    	return json_encode( $this->attributes );
-    }
+	public function toJSON(){
+		return json_encode( $this->attributes );
+	}
   
 }
 
@@ -247,22 +247,22 @@ class ModelCRUD extends Model {
 
 		// caso não exista o parâmetro $filter, cria array com informações default
 		if(!$filter){
-		 	$filter = array(
-		 		$this->table .".". $this->key_attribute,
-		 		$this->{$this->key_attribute},
-		 		'=', 
-		 		false, 
-		 		gettype($this->defaults[$this->key_attribute])
-		 	);
+			$filter = array(
+				$this->table .".". $this->key_attribute,
+				$this->{$this->key_attribute},
+				'=', 
+				false, 
+				gettype($this->defaults[$this->key_attribute])
+			);
 		// caso o parâmetro $filter informado não seja um array, insere a string no array padrão para ser enviado para a função db::digestWhere()
 		}elseif ( gettype($filter) !== "array" ) {
 			$filter = array(
-		 		$this->table .".". $this->key_attribute,
-		 		$filter,
-		 		'=', 
-		 		false, 
-		 		gettype($this->defaults[$this->key_attribute])
-		 	);
+				$this->table .".". $this->key_attribute,
+				$filter,
+				'=', 
+				false, 
+				gettype($this->defaults[$this->key_attribute])
+			);
 		}
 
 		// executa a função digestWhere que prepara o sql que será executado

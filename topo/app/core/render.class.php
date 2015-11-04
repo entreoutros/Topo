@@ -1,6 +1,7 @@
 <?php
 
 class Render{
+
 	private $vars = array();
 	private $scripts = array();
 	private $style = array();
@@ -10,15 +11,39 @@ class Render{
 	public function __construct(){
 	}
 	
+	/**
+	 * templateExists
+	 *
+	 * Verifica se um template existe pelo nome do template enviado no parâmetro $template.
+	 *
+	 * @version 1.0
+	 * @param 	$template 	string 		Nome do template.
+	 * @return 	boolean		true (arquivo do template existe) / false (arquivo do template não existe)
+	 */
 	public static function templateExists($template){
 		return file_exists(view_path.$template.".tpl.php");
 	}
 	
+	/**
+	 * add
+	 *
+	 * ####
+	 *
+	 * @version 1.0
+	 * @param 	$key 	####
+	 * @param 	$value 	####
+	 */
 	public function add($key,$value){
 		$this->vars[$key] = $value;
 	}
 	
-	/* TODO */
+	/**
+	 * renderJs
+	 *
+	 * Renderiza arquivos javascript adicionados à variável $scripts da classe.
+	 *
+	 * @version 1.0
+	 */
 	public function renderJs(){
 		foreach($this->scripts as $key=>$value){
 			if(is_array( $value) ) {
@@ -41,12 +66,27 @@ class Render{
 		}
 	}
 	
+	/**
+	 * renderCss
+	 *
+	 * Renderiza arquivos css adicionados à variável $styles da classe.
+	 *
+	 * @version 1.0
+	 */
 	public function renderCss(){
 		foreach($this->styles as $key=>$value){
 			echo "<link href='$value' rel='stylesheet'>";
 		}
 	}
 	
+	/**
+	 * addModule
+	 *
+	 * ####
+	 *
+	 * @version 1.0
+	 * @param $module 	Nome do módulo.
+	 */
 	public function addModule($module){
 		$view = $this->vars;
 		if(file_exists(view_path."/modules/".$module.".tpl.php")){
@@ -57,6 +97,15 @@ class Render{
 		}
 	}
 	
+	/**
+	 * json
+	 *
+	 * Renderiza um arquivo json enviado no parâmetro $val caso $print seja true.
+	 *
+	 * @version 1.0
+	 * @param $val 		array 		Array/string que será codificado em JSON.
+	 * @param $print 	boolean 	true (imprimi o JSON na tela) / false (retorna o objeto JSON)
+	 */
 	public function json($val, $print = true){
 		header('Content-type:  application/json; charset=utf-8');
 		$var = json_encode($val);
@@ -67,6 +116,18 @@ class Render{
 		return $var;
 	}
 
+	/**
+	 * render
+	 *
+	 * ####
+	 *
+	 * @version 1.0
+	 * @param 	$template  				#####
+	 * @param 	$header_template  		#####
+	 * @param 	$footer_template  		#####
+	 * @param 	$header  				#####
+	 * @return 	$return 				#####
+	 */
 	public function render($template, $header_template = true, $footer_template = true, $header = false ){
 		ob_start();
 			self::view($template, $header_template, $footer_template, $header);
@@ -75,6 +136,18 @@ class Render{
 		return $return;
 	}	
 	
+	/**
+	 * view
+	 *
+	 * ####
+	 *
+	 * @version 1.0
+	 * @param 	$template  				#####
+	 * @param 	$head_template  		#####
+	 * @param 	$footer_template  		#####
+	 * @param 	$header  				#####
+	 * @return 	$return 				#####
+	 */
 	public function view($template, $head_template = true, $footer_template = true, $header = false){
 		global $view;
 		global $dic;

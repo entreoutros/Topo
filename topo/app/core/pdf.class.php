@@ -1,5 +1,11 @@
 <?php
-
+/*
+ *
+ * FPDF é uma classe PHP que permite gerar arquivos PDF com PHP puro, sem usar por exemplo a biblioteca PDFlib.
+ * FPDF é uma biblioteca de código aberto.
+ * Saiba mais em: http://www.fpdf.org/
+ *
+ */
 require(lib_path.'fpdf/fpdf.php');
 
 class PDF extends FPDF{

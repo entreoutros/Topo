@@ -28,8 +28,8 @@ class homeController extends Controller{
 			array(
 				'internal_args'=>$args,
 				'post'=>$this->post('debug', 'none'),	/* POST request method */
-				'post'=>$this->get('debug', 'none'),	/* GET request method */
-				'post'=>$this->pick('debug', 'none'),	/* BOTH request method */
+				'get'=>$this->get('debug', 'none'),	/* GET request method */
+				'request'=>$this->pick('debug', 'none'),	/* BOTH request method */
 				)
 			);
 
